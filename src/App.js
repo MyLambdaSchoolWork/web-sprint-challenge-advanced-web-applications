@@ -5,12 +5,17 @@ import Login from "./components/Login";
 import "./styles.scss";
 
 function App() {
+
+  function logout(){
+    localStorage.removeItem('not_a_secret_token')
+  }
+
   return (
     <Router>
       <div className="App">
         <header>
           Color Picker Sprint Challenge
-          <a data-testid="logoutButton" href="#">logout</a>
+          <a data-testid="logoutButton" href="/" onClick={logout} >logout</a>
         </header> 
 
         <Route exact path="/" component={Login} />
