@@ -23,13 +23,21 @@ const Login = () => {
 
   function onSubmit(evt){
     evt.preventDefault()
+    if(values.username === '' || values.password === ''){
+      setError('Username or Password must be filled out')
+      return
+    }
+
+    
     axios.post('http://localhost:5000/api/login', values)
-      .then( res => {
+    .then( res => {
+        setError('')
         console.log(res)
         localStorage.setItem('not_a_secret_token', res.data.payload)
       })
       .catch( err => {
         console.log(err.response)
+        setError('Username or Password not valid')
       })
   }
 
@@ -95,13 +103,14 @@ const Login = () => {
               src={passwordVisible ? eyeNotVisible : eyeVisible}
               alt=''
               onClick={() => setPasswordVisible(!passwordVisible)}
+              tabIndex='0' // added so keyboard can select with tab
             />
           </DivFieldsetStyled>
+          <p data-testid="errorMessage" className="error">{error}</p>
           <button type='submit'>Login</button>
         </form>
       </div>
 
-      <p data-testid="errorMessage" className="error">{error}</p>
     </div>
   );
 };
@@ -154,8 +163,8 @@ const ImgEyeStyled = styled.img`
   width: 20px;
 `
 //Task List:
-//1. Build a form containing a username and password field.
-//2. Add whatever state nessiary for form functioning.
-//3. MAKE SURE YOUR USERNAME AND PASSWORD INPUTS INCLUDE data-testid="username" and data-testid="password"
-//4. If either the username or password is not entered, display the following words with the p tag provided: Username or Password not valid.
-//5. If the username / password is equal to Lambda School / i<3Lambd4, save that token to localStorage.
+//1. Build a form containing a username and password field. DONE
+//2. Add whatever state nessiary for form functioning. DONE
+//3. MAKE SURE YOUR USERNAME AND PASSWORD INPUTS INCLUDE data-testid="username" and data-testid="password" MIGHT DO LATER- for now if I need to test I can use .getByLabelText()
+//4. If either the username or password is not entered, display the following words with the p tag provided: Username or Password not valid. DONE
+//5. If the username / password is equal to Lambda School / i<3Lambd4, save that token to localStorage. DONE
