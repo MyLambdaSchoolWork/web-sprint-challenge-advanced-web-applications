@@ -15,7 +15,7 @@ const initialFocus = {
   password: false,
 };
 
-const Login = () => {
+const Login = (props) => {
   const [ values, setValues ] = useState(initialValues) // user input values
   const [ error, setError ] = useState('')
   const [ focus, setFocus ] = useState(initialFocus) // whether form element should be focused
@@ -28,12 +28,12 @@ const Login = () => {
       return
     }
 
-    
     axios.post('http://localhost:5000/api/login', values)
     .then( res => {
         setError('')
         console.log(res)
         localStorage.setItem('not_a_secret_token', res.data.payload)
+        props.history.push('/BubblePage')
       })
       .catch( err => {
         console.log(err.response)
