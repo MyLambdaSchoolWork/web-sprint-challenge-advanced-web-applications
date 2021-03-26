@@ -3,11 +3,14 @@ import { render, screen } from "@testing-library/react";
 import BubblePage from "./BubblePage";
 
 test("Renders BubblePage without errors", () => {
-  // Finish this test
+  render(<BubblePage auth={{headers: {authorization: 'ahuBHejkJJiMDhmODZhZi0zaeLTQ4ZfeaseOGZgesai1jZWYgrTA07i73Gebhu98'}}}/>)
 });
 
-test("Fetches data and renders the bubbles on mounting", () => {
-  // Finish this test
+test("Fetches data and renders the bubbles on mounting", async () => {
+  render(<BubblePage auth={{headers: {authorization: 'ahuBHejkJJiMDhmODZhZi0zaeLTQ4ZfeaseOGZgesai1jZWYgrTA07i73Gebhu98'}}}/>)
+
+  const colors = await screen.findAllByTestId('color')
+  expect(colors.length).toBeGreaterThan(0)
 });
 
 //Task List

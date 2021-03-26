@@ -72,5 +72,5 @@ const ColorList = ({ colors, updateColors }) => {
 export default ColorList;
 
 //Task List:
-//1. Complete the saveEdit functions by making a put request for saving colors. (Think about where will you get the id from...)
-//2. Complete the deleteColor functions by making a delete request for deleting colors.
+//1. Complete the saveEdit functions by making a put request for saving colors. (Think about where will you get the id from...) DONE
+//2. Complete the deleteColor functions by making a delete request for deleting colors. DONE
