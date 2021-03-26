@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import axiosWithAuth from '../helpers/axiosWithAuth';
+
 import Color from './Color';
 import EditMenu from './EditMenu';
 
@@ -11,16 +13,33 @@ const initialColor = {
 
 const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
+  const [originalColor, setOriginalColor] = useState(initialColor);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
+    setOriginalColor(color);
   };
 
   const saveEdit = e => {
-    e.preventDefault();
-
+    e.preventDefault()
+    // only do put request if colorToEdit is different
+    if(colorToEdit.color === originalColor.color && colorToEdit.code.hex === originalColor.code.hex)
+    return
+    
+    console.log(colorToEdit)
+    axiosWithAuth().put(`/colors/${colorToEdit.id}`, colorToEdit)
+      .then( res => {
+        console.log(res.data)
+        updateColors(colors.map( color => color.id === res.data.id ? res.data : color))
+        setEditing(false)
+        setOriginalColor(initialColor)
+        setColorToEdit(initialColor)
+      })
+      .catch( err => {
+        console.log(err)
+      })
   };
 
   const deleteColor = color => {

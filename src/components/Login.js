@@ -42,6 +42,7 @@ const Login = (props) => {
   }
 
   function onChange(evt) {
+    console.log(evt.target)
     const { name, value } = evt.target
     setValues({ ...values, [name]: value })
   }
