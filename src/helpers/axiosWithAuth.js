@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //Task List:
-//Build and export a function used to send in our authorization token
+//Build and export a function used to send in our authorization token DONE
 
 export default function axiosWithAuth(){
   const token = localStorage.getItem('not_a_secret_token')

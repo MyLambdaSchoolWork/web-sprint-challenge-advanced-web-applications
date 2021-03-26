@@ -26,7 +26,7 @@ const ColorList = ({ colors, updateColors }) => {
     e.preventDefault()
     // only do put request if colorToEdit is different
     if(colorToEdit.color === originalColor.color && colorToEdit.code.hex === originalColor.code.hex)
-    return
+      return
     
     console.log(colorToEdit)
     axiosWithAuth().put(`/colors/${colorToEdit.id}`, colorToEdit)
@@ -38,11 +38,22 @@ const ColorList = ({ colors, updateColors }) => {
         setColorToEdit(initialColor)
       })
       .catch( err => {
-        console.log(err)
+        console.log(err.response)
       })
   };
 
-  const deleteColor = color => {
+  const deleteColor = oldColor => {
+    if(!window.confirm(`Are you sure you wish to delete ${oldColor.color}?`))
+      return
+
+    axiosWithAuth().delete(`/colors/${oldColor.id}`)
+      .then( res => {
+        console.log(res)
+        updateColors(colors.filter( color => color.id !== oldColor.id))
+      })
+      .catch( err => {
+        console.log(err.response)
+      })
   };
 
   return (

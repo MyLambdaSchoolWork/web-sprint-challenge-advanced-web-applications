@@ -31,5 +31,5 @@ function App() {
 export default App;
 
 //Task List:
-//1. Render BubblePage as a PrivateRoute
-//2. Build the logout button to remove the localStorage Item.
+//1. Render BubblePage as a PrivateRoute DONE
+//2. Build the logout button to remove the localStorage Item. DONE
