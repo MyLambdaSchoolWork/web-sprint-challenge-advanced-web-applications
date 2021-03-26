@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 
 import eyeVisible from '../assets/iconmonstr-eye-thin.svg';
 import eyeNotVisible from '../assets/iconmonstr-eye-off-thin.svg';
+import axios from "axios";
 
 const initialValues = {
   username: '',
@@ -15,10 +16,22 @@ const initialFocus = {
 };
 
 const Login = () => {
-  const [ values, setValues ] = useState(initialValues)
+  const [ values, setValues ] = useState(initialValues) // user input values
   const [ error, setError ] = useState('')
-  const [ focus, setFocus ] = useState(initialFocus)
+  const [ focus, setFocus ] = useState(initialFocus) // whether form element should be focused
   const [ passwordVisible, setPasswordVisible ] = useState(false)
+
+  function onSubmit(evt){
+    evt.preventDefault()
+    axios.post('http://localhost:5000/api/login', values)
+      .then( res => {
+        console.log(res)
+        localStorage.setItem('not_a_secret_token', res.data.payload)
+      })
+      .catch( err => {
+        console.log(err.response)
+      })
+  }
 
   function onChange(evt) {
     const { name, value } = evt.target
@@ -30,6 +43,7 @@ const Login = () => {
     setFocus({ ...focus, [name]: true })
   }
   
+  // dunno react calls the event onBlur, but it runs when element loses focus
   function onBlur(evt) {
     const { name } = evt.target
     const value = values[name] === '' ? false : true
@@ -42,13 +56,12 @@ const Login = () => {
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
-        <h2>Build login form here</h2>
-        <form>
+        {/* <h2>Build login form here</h2> */}
+        <form onSubmit={onSubmit}>
           <DivFieldsetStyled>
             <LabelStyled 
               focus={focus.username}
               htmlFor='username'
-              // hasData={values.username === '' ? false : true}
             >
               Username
             </LabelStyled>
@@ -84,6 +97,7 @@ const Login = () => {
               onClick={() => setPasswordVisible(!passwordVisible)}
             />
           </DivFieldsetStyled>
+          <button type='submit'>Login</button>
         </form>
       </div>
 
